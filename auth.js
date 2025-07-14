@@ -40,6 +40,30 @@ function handleLogin() {
   }
 }
 
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  // Simple hardcoded login
+  if (username === "admin" && password === "1234") {
+    localStorage.setItem("loggedIn", "true");
+    window.location.href = "dashboard.html";
+  } else {
+    document.getElementById("error").innerText = "Invalid login!";
+  }
+}
+
+function checkLogin() {
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "index.html"; // redirect to login if not logged in
+  }
+}
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "index.html";
+}
+
 // Add event listeners for Enter key
 document.getElementById('password').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {

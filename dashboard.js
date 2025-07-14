@@ -6,6 +6,11 @@ function loadDashboard() {
   const recentIn = [];
   const recentOut = [];
 
+  let visits = localStorage.getItem("visits") || 0;
+  visits++;
+  localStorage.setItem("visits", visits);
+  document.getElementById("visit-count").innerText = "Visits: " + visits;
+
   data.forEach(entry => {
     const item = entry.item.toLowerCase();
     itemCounts[item] = (itemCounts[item] || 0) + 1;
