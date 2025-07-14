@@ -1,45 +1,32 @@
-const fs = require('fs');
-const path = require('path');
 
-const dataFile = path.join(__dirname, 'data.json');
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-// Load existing items
-window.onload = () => {
-  if (fs.existsSync(dataFile)) {
-    const data = JSON.parse(fs.readFileSync(dataFile));
-    data.forEach(addToList);
+  if (username === "admin" && password === "1234") {
+    localStorage.setItem("loggedIn", "true");
+    window.location.href = "dashboard.html";
+  } else {
+    document.getElementById("error").innerText = "Invalid login!";
   }
-};
-
-function addItem() {
-  const item = document.getElementById('item').value;
-  const qty = document.getElementById('qty').value;
-  const person = document.getElementById('person').value;
-
-  if (!item || !qty || !person) {
-    return alert("Fill in all fields");
-  }
-
-  const entry = { item, qty, person, date: new Date().toLocaleString() };
-
-  // Save to JSON file
-  let data = [];
-  if (fs.existsSync(dataFile)) {
-    data = JSON.parse(fs.readFileSync(dataFile));
-  }
-  data.push(entry);
-  fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
-
-  addToList(entry);
-
-  // Clear input fields
-  document.getElementById('item').value = '';
-  document.getElementById('qty').value = '';
-  document.getElementById('person').value = '';
 }
 
-function addToList(entry) {
-  const li = document.createElement('li');
-  li.textContent = `${entry.item} | Qty: ${entry.qty} | By: ${entry.person} | ${entry.date}`;
-  document.getElementById('stock-list').appendChild(li);
+function checkLogin() {
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "index.html";
+  }
 }
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "index.html";
+}
+
+window.addEventListener("load", () => {
+  if (document.getElementById("visit-count")) {
+    let visits = localStorage.getItem("visits") || 0;
+    visits++;
+    localStorage.setItem("visits", visits);
+    document.getElementById("visit-count").innerText = "Visits: " + visits;
+  }
+});
